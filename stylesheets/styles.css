@@ -1,0 +1,36 @@
+@media (max-width: 320px) {
+  ul.table-view li.table-view-cell {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 320px;
+  }
+}
+
+.content p {
+  text-align: center;
+}
+.content .digicoins {
+  margin-top: 1.5em;
+  text-align: center;
+}
+.content a.digicoins {
+  color: #f77000;
+}
+
+.error {
+  color: #d9534f;
+}
+
+.hide {
+  display: none;
+}
+.delta-usd, .delta-ars {
+  top: 20px !important;
+  right: 35px !important;
+}
+.spread-usd, .spread-ars {
+  top: 40px !important;
+  right: 35px !important;
+  background-color: transparent;
+}

@@ -1,0 +1,24 @@
+CACHE MANIFEST
+# 04/08/14 17:32
+
+CACHE:
+/static/favicon.ico
+/fonts/ratchicons.eot
+/fonts/ratchicons.svg
+/fonts/ratchicons.ttf
+/fonts/ratchicons.woff
+/javascripts/lib/ratchet.min.js
+/javascripts/lib/moment-with-langs.min.js
+/javascripts/lib/localforage.min.js
+/javascripts/lib/numeral.min.js
+/javascripts/lib/numeral.es.js
+/javascripts/lib/zepto.min.js
+/javascripts/cache.conectabitcoin.json
+/javascripts/cache.digicoins.json
+/javascripts/app.js
+/stylesheets/ratchet.min.css
+/stylesheets/styles.css
+
+NETWORK:
+https://digicoins.tk
+https://conectabitcoin.com
