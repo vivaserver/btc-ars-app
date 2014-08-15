@@ -12,7 +12,16 @@ html manifest="/static/manifest.appcache"
     link rel="stylesheet" href="/stylesheets/styles.css"
   body
     header class="bar bar-nav"
-      h1 class="title" BitCoin en Argentina
+      a href="#exchangeable"
+        h1 class="title" 
+          | BitCoin en Argentina
+          span class="icon icon-caret"
+    div id="exchangeable" class="popover"
+      header class="bar bar-nav"
+        h1 class="title" Seleccione broker
+      ul class="table-view"
+        li class="table-view-cell" Digicoins
+        li class="table-view-cell" ConectaBitcoin
 
     div class="content"
       div class="segmented-control content-padded"
