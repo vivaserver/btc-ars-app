@@ -28,10 +28,14 @@ var app = function() {
     };
 
     var updateFrom = function(uri, use_data_time) {
+      var targetURI = uri;
+      if (window.location.port) {  // running on dev. server, ask quotes locally to avoid CORS
+        targetURI = uri.substring(0,4)==="http" ? window.location.href+"get/"+uri : uri;
+      }
       $.ajax({
         dataType: "json",
         type: "GET",
-        url: uri, 
+        url: targetURI, 
         success: function(data) {
           updateCache(data,use_data_time);
         },
