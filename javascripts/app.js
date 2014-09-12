@@ -252,6 +252,11 @@ var app = function() {
         $el.on("data:error",function(el) {
           that.error(true);
         });
+        $(".popover li").bind("touchend",function(e) {
+          console.log($(this).attr("id"));
+          $(".backdrop").trigger("touchend");
+          e.preventDefault();
+        });
       },
       error: function(truthy) {
         var time;
