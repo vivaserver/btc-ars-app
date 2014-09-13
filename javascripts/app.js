@@ -1,4 +1,4 @@
-//! version : 0.1.7
+//! version : 0.1.8
 //! authors : Cristian R. Arroyo <cristian.arroyo@vivaserver.com>
 //! license : MIT
 //! digicoins.enmicelu.com
@@ -240,7 +240,7 @@ var app = function() {
     };
 
     return {
-      init: function($el) {
+      init: function() {  // closure $el
         var that = this;
         $buy  = $el.find("span#buy");
         $sell = $el.find("span#sell");
@@ -251,11 +251,6 @@ var app = function() {
         });
         $el.on("data:error",function(el) {
           that.error(true);
-        });
-        $(".popover li").bind("touchend",function(e) {
-          console.log($(this).attr("id"));
-          $(".backdrop").trigger("touchend");
-          e.preventDefault();
         });
       },
       error: function(truthy) {
@@ -275,17 +270,36 @@ var app = function() {
     };
   }();
 
+  var Exchangeable = function() {
+    return {
+      // ref. https://github.com/twbs/ratchet/issues/625
+      init: function() {  // closure $el
+        var exchanger;
+        $el.find(".popover li").bind("touchend",function(e) {
+          exchanger = $(this).attr("id");
+          console.log(exchanger);
+          $el.find(".backdrop").trigger("touchend");
+          $el.find("nav #exchanger").text(exchanger);
+          e.preventDefault();
+        });
+      }
+    };
+  }();
+
   return {
-    init: function($elem) {
+    init: function(elem) {
       localforage.setDriver("localStorageWrapper");
       moment.lang("es");
 
-      $el = $elem;
+      $el = $(elem || "body");
       exchange = DigiCoins();  // TODO: setup on-demand
 
-      Home.init($el);
+      Home.init();
       // render from local cache JSON file
       Home.render();
+
+      Exchangeable.init();
+
       // force first update
       exchange.update();
       // schedule all next
@@ -297,5 +311,5 @@ var app = function() {
 }();
 
 $(document).ready(function() {
-  app.init($(".content"));
+  app.init();
 });
