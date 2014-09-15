@@ -274,12 +274,23 @@ var app = function() {
     return {
       // ref. https://github.com/twbs/ratchet/issues/625
       init: function() {  // closure $el
-        var exchanger;
         $el.find(".popover li").bind("touchend",function(e) {
           exchanger = $(this).attr("id");
           console.log(exchanger);
           $el.find(".backdrop").trigger("touchend");
           $el.find("nav #exchanger").text(exchanger);
+
+          switch (exchanger) {
+            case "conectabitcoin":
+              exchange = ConectaBitcoin();  // closure exchange
+            break;
+            case "digicoins":
+              exchange = DigiCoins();
+            break;
+          }
+          // TODO: trigger only on exchange update
+          $el.trigger("data:change");
+
           e.preventDefault();
         });
       }
@@ -292,7 +303,7 @@ var app = function() {
       moment.lang("es");
 
       $el = $(elem || "body");
-      exchange = DigiCoins();  // TODO: setup on-demand
+      exchange = DigiCoins();  // TODO: get from localforage
 
       Home.init();
       // render from local cache JSON file
