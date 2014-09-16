@@ -223,6 +223,7 @@ var app = function() {
 
     var renderQuote = function($id, created_at, current, previous) {
       var time = moment(created_at), blue = exchange.blue(current);
+
       // USD
       if (current.usd) {
         numeral.language("en");
@@ -231,6 +232,11 @@ var app = function() {
           renderDelta($id.find(".delta-usd"),current.usd,previous.usd);
         }
       }
+      else {
+        $id.find(".usd").text("");
+        $id.find(".delta-usd").text("");
+      }
+
       // ARS
       if (current.ars) {
         numeral.language("es");
@@ -239,10 +245,19 @@ var app = function() {
           renderDelta($id.find(".delta-ars"),current.ars,previous.ars);
         }
       }
+      else {
+        $id.find(".ars").text("");
+        $id.find(".delta-ars").text("");
+      }
+
       // dolar blue
       if (blue) {
         $id.find("span.blue").text(toString(blue)+" x USD");
       }
+      else {
+        $id.find("span.blue").text("");
+      }
+
       // "30/6/214 (hace 3 días)"
       $time.removeClass("error");
       $time.data("time",created_at);
