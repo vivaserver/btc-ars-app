@@ -1,7 +1,7 @@
 //! version : 0.1.8
 //! authors : Cristian R. Arroyo <cristian.arroyo@vivaserver.com>
 //! license : MIT
-//! digicoins.enmicelu.com
+//! btc-ars.enmicelu.com
 
 var app = function() {
   var $el, exchange, cache_timeout = 10;  // in minutes
