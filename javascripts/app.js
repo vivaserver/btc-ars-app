@@ -190,16 +190,16 @@ var app = function() {
     };
 
     var renderSpread = function($quote, quote) {
-      if (quote.buy.usd && quote.buy.sell.usd) {
+      if (quote.buy.usd && quote.sell.usd) {
         numeral.language("en");
-        $quote.find(".spread-usd").text(toString(quote.buy.usd-quote.sell.usd)+" ↔");
+        $quote.find(".spread-usd").text(toString(Math.abs(quote.buy.usd-quote.sell.usd))+" ↔");
       }
       else {
         $quote.find(".spread-usd").text("");
       }
-      if (quote.buy.ars && quote.buy.sell.ars) {
+      if (quote.buy.ars && quote.sell.ars) {
         numeral.language("es");
-        $quote.find(".spread-ars").text(toString(quote.buy.ars-quote.sell.ars)+" ↔");
+        $quote.find(".spread-ars").text(toString(Math.abs(quote.buy.ars-quote.sell.ars))+" ↔");
       }
       else {
         $quote.find(".spread-ars").text("");
