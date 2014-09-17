@@ -78,7 +78,9 @@ var app = function() {
       },
       updateFromLocal: function() {
         var use_data_time = true;
-        updateFrom(exchange.cache,use_data_time);
+        localforage.removeItem(exchange.name,function() {
+          updateFrom(exchange.cache,use_data_time);
+        });
       }
     };
   };
@@ -176,7 +178,6 @@ var app = function() {
             renderSpread($sell,current);
           }
           else {
-            localStorage.clear();
             // no current cache stored, fallback to static .json
             // and force update on expired bundled data time
             exchange.updateFromLocal();
