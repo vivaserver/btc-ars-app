@@ -69,6 +69,9 @@ var app = function() {
           return quote.ars/quote.usd;
         }
       },
+      name: function() {
+        return exchange.name;
+      },
       update: function() {
         localforage.getItem(exchange.name,function(cache) {
           if (!cache || lapseExpired(cache.current) > cache_timeout-1) {
@@ -86,8 +89,6 @@ var app = function() {
   };
 
   var DigiCoins = function() {
-    var exchanger = {};
-
     // needed to cache/parse exchanger quotes
     var conf = {
       quote: function(data, use_data_time) {
@@ -114,14 +115,11 @@ var app = function() {
       name: "digicoins",
       URI: "https://digicoins.tk/ajax/get_prices"
     };
-    exchanger = exchangeable(conf);
 
-    return exchanger;
+    return exchangeable(conf);
   };
 
   var ConectaBitcoin = function() {
-    var exchanger = {};
-
     // needed to cache/parse exchanger quotes
     var conf = {
       quote: function(data, use_data_time) {
@@ -155,9 +153,8 @@ var app = function() {
       name: "conectabitcoin",
       URI: "https://conectabitcoin.com/es/market_prices.json"
     };
-    exchanger = exchangeable(conf);
 
-    return exchanger;
+    return exchangeable(conf);
   };
 
   var Home = function() {
@@ -300,23 +297,24 @@ var app = function() {
     return {
       // ref. https://github.com/twbs/ratchet/issues/625
       init: function() {  // closure $el
+        var exchanger;
         $el.find(".popover li").bind("touchend",function(e) {
           exchanger = $(this).attr("id");
           console.log(exchanger);
-          $el.find(".backdrop").trigger("touchend");
-          $el.find("nav #exchanger").text(exchanger);
-
-          switch (exchanger) {
-            case "conectabitcoin":
-              exchange = ConectaBitcoin();  // closure exchange
-            break;
-            case "digicoins":
-              exchange = DigiCoins();
-            break;
+          // trigger only on exchange update
+          if (exchanger !== exchange.name) {
+            $el.find(".backdrop").trigger("touchend");
+            $el.find("nav #exchanger").text(exchanger);
+            switch (exchanger) {
+              case "conectabitcoin":
+                exchange = ConectaBitcoin();  // closure exchange
+              break;
+              case "digicoins":
+                exchange = DigiCoins();
+              break;
+            }
+            $el.trigger("data:change");
           }
-          // TODO: trigger only on exchange update
-          $el.trigger("data:change");
-
           e.preventDefault();
         });
       }
