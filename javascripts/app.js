@@ -89,9 +89,8 @@ var app = function() {
   };
 
   var DigiCoins = function() {
-    // needed to cache/parse exchanger quotes
     var conf = {
-      quote: function(data, use_data_time) {
+      quote: function(data, use_data_time) {  // needed to cache/parse exchanger quotes
         if ((data || {}).result == "OK") {  // ref. http://stackoverflow.com/a/19285523
           return {
             buy: {
@@ -120,9 +119,8 @@ var app = function() {
   };
 
   var ConectaBitcoin = function() {
-    // needed to cache/parse exchanger quotes
     var conf = {
-      quote: function(data, use_data_time) {
+      quote: function(data, use_data_time) {  // needed to cache/parse exchanger quotes
         var data_time = new Date();
         if ((data || {}).btc_usd && (data || {}).btc_ars) {
           if (use_data_time) {  // force expired date
@@ -206,16 +204,21 @@ var app = function() {
 
     var renderDelta = function($id, current, previous) {
       $id.removeClass("badge-negative").removeClass("badge-positive");
-      switch (true) {  // ref. http://stackoverflow.com/a/21808629
-        case (previous > current):
-          $id.addClass("badge-negative").show().text(toString(previous-current)+" ↓");
-        break;
-        case (previous < current):
-          $id.addClass("badge-positive").show().text(toString(current-previous)+" ↑");
-        break;
-        default:
-          $id.show().text("=");
-        break;
+      if (current && previous) {
+        switch (true) {  // ref. http://stackoverflow.com/a/21808629
+          case (previous > current):
+            $id.addClass("badge-negative").show().text(toString(previous-current)+" ↓");
+          break;
+          case (previous < current):
+            $id.addClass("badge-positive").show().text(toString(current-previous)+" ↑");
+          break;
+          default:
+            $id.show().text("=");
+          break;
+        }
+      }
+      else {
+        $id.hide().text("");
       }
     };
 
@@ -226,9 +229,7 @@ var app = function() {
       if (current.usd) {
         numeral.language("en");
         $id.find(".usd").text(toString(current.usd));
-        if (previous.usd) {
-          renderDelta($id.find(".delta-usd"),current.usd,previous.usd);
-        }
+        renderDelta($id.find(".delta-usd"),current.usd,previous.usd);
       }
       else {
         $id.find(".usd").text("");
@@ -239,9 +240,7 @@ var app = function() {
       if (current.ars) {
         numeral.language("es");
         $id.find(".ars").text(toString(current.ars));
-        if (previous.ars) {
-          renderDelta($id.find(".delta-ars"),current.ars,previous.ars);
-        }
+        renderDelta($id.find(".delta-ars"),current.ars,previous.ars);
       }
       else {
         $id.find(".ars").text("");
