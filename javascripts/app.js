@@ -235,8 +235,12 @@ var app = function() {
       }
     };
 
+    var clearDelta = function($id) {
+      $id.removeClass("badge-negative").removeClass("badge-positive").text("").hide();
+    };
+
     var renderDelta = function($id, current, previous) {
-      $id.removeClass("badge-negative").removeClass("badge-positive");
+      clearDelta($id);
       if (current && previous) {
         switch (true) {  // ref. http://stackoverflow.com/a/21808629
           case (previous > current):
@@ -249,9 +253,6 @@ var app = function() {
             $id.show().text("=");
           break;
         }
-      }
-      else {
-        $id.hide().text("");
       }
     };
 
@@ -266,7 +267,7 @@ var app = function() {
       }
       else {
         $id.find(".usd").text("");
-        $id.find(".delta-usd").text("");
+        clearDelta($id.find(".delta-usd"));
       }
 
       // ARS
@@ -277,7 +278,7 @@ var app = function() {
       }
       else {
         $id.find(".ars").text("");
-        $id.find(".delta-ars").text("");
+        clearDelta($id.find(".delta-ars"));
       }
 
       // dolar blue
