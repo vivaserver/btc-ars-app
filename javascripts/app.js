@@ -7,6 +7,10 @@ var app = function() {
   var $el, exchange, cache_timeout = 10;  // in minutes
 
   var exchangeable = function(exchange) {
+    var backendURL = function() {
+      return (window.location.port ? window.location.href : "http://btc-ars.herokuapp.com/") + "get/";
+    };
+
     var updateCache = function(data, use_data_time) {
       console.log(data);
       localforage.getItem(exchange.name,function(cache) {
@@ -28,8 +32,8 @@ var app = function() {
     };
 
     var updateFrom = function(uri, use_data_time) {
-      // running on dev. server, ask quotes locally to avoid CORS
-      var targetURI = uri.substring(0,4)==="http" ? window.location.href+"get/"+uri : uri;
+      // ask quotes via backend to avoid CORS; but mind cache files are stored locally
+      var targetURI = uri.substring(0,4)==="http" ? backendURL()+uri : uri; 
       $.ajax({
         dataType: "json",
         type: "GET",
