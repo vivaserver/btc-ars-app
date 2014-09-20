@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 04/08/14 17:32
+# 20/09/14 20:24
 
 CACHE:
 /static/favicon.ico
@@ -13,6 +13,7 @@ CACHE:
 /javascripts/lib/numeral.min.js
 /javascripts/lib/numeral.es.js
 /javascripts/lib/zepto.min.js
+/javascripts/cache.casadecambio.json
 /javascripts/cache.conectabitcoin.json
 /javascripts/cache.digicoins.json
 /javascripts/app.js
@@ -20,5 +21,6 @@ CACHE:
 /stylesheets/styles.css
 
 NETWORK:
-https://digicoins.tk
+https://www.casadecambiobtc.com
 https://conectabitcoin.com
+https://digicoins.tk
