@@ -1,4 +1,4 @@
-//! version : 0.1.8
+//! version : 0.1.9
 //! authors : Cristian R. Arroyo <cristian.arroyo@vivaserver.com>
 //! license : MIT
 //! btc-ars.enmicelu.com
@@ -28,10 +28,8 @@ var app = function() {
     };
 
     var updateFrom = function(uri, use_data_time) {
-      var targetURI = uri;
-      if (window.location.port) {  // running on dev. server, ask quotes locally to avoid CORS
-        targetURI = uri.substring(0,4)==="http" ? window.location.href+"get/"+uri : uri;
-      }
+      // running on dev. server, ask quotes locally to avoid CORS
+      var targetURI = uri.substring(0,4)==="http" ? window.location.href+"get/"+uri : uri;
       $.ajax({
         dataType: "json",
         type: "GET",
