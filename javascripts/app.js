@@ -300,9 +300,9 @@ var app = function() {
     return {
       init: function() {  // closure $el
         var that = this;
-        $buy  = $el.find("span#buy");
-        $sell = $el.find("span#sell");
-        $time = $el.find("p#time");
+        $buy  = $el.find("#buy");
+        $sell = $el.find("#sell");
+        $time = $el.find("#time");
         $el.on("data:change",function(el) {
           that.error(false);
           that.render();

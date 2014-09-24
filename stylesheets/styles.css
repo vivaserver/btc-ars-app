@@ -30,12 +30,9 @@
 }
 .delta-usd, .delta-ars {
   top: 20px !important;
-  right: 35px !important;
 }
 .spread-usd, .spread-ars {
   top: 40px !important;
-  right: 35px !important;
-  background-color: transparent;
 }
 
 #exchanger {
