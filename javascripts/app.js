@@ -285,10 +285,10 @@ var app = function() {
 
       // dolar blue
       if (blue) {
-        $id.find("span.blue").text(toString(blue)+" x USD");
+        $id.find(".blue").text(toString(blue)+" x USD");
       }
       else {
-        $id.find("span.blue").text("");
+        $id.find(".blue").text("");
       }
 
       // "30/6/214 (hace 3 días)"
@@ -300,9 +300,9 @@ var app = function() {
     return {
       init: function() {  // closure $el
         var that = this;
-        $buy  = $el.find("span#buy");
-        $sell = $el.find("span#sell");
-        $time = $el.find("p#time");
+        $buy  = $el.find("#buy");
+        $sell = $el.find("#sell");
+        $time = $el.find("#time");
         $el.on("data:change",function(el) {
           that.error(false);
           that.render();
