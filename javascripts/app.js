@@ -8,7 +8,7 @@ var app = function() {
 
   var exchangeable = function(exchange) {
     var backendURL = function() {
-      return (window.location.port ? window.location.href : "http://btc-ars.herokuapp.com/") + "get/";
+      return (window.location.port ? window.location.href : "http://btc-ars.herokuapp.com/") + "quote/";
     };
 
     var updateCache = function(data, use_data_time) {
