@@ -374,6 +374,12 @@ var app = function() {
 
       Exchangeable.init();
 
+      pie = new EasyPieChart(document.querySelector('.chart'),{
+        animate: 2000,
+        size: 50
+      });
+      pie.update(93);
+
       // force first update
       exchange.update();
       // schedule all next
