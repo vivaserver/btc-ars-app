@@ -362,6 +362,8 @@ var app = function() {
 
   return {
     init: function(elem) {
+      var countdown_pie, countdown_timeout = 0;
+
       localforage.setDriver("localStorageWrapper");
       moment.lang("es");
 
@@ -374,11 +376,11 @@ var app = function() {
 
       Exchangeable.init();
 
-      pie = new EasyPieChart(document.querySelector('.chart'),{
+      countdown_pie = new EasyPieChart(document.querySelector('.chart'),{
         animate: 2000,
         size: 50
       });
-      pie.update(93);
+      countdown_pie.update(countdown_timeout);
 
       // force first update
       exchange.update();
@@ -386,6 +388,18 @@ var app = function() {
       setInterval(function() {
         exchange.update();
       },cache_timeout*60*1000);  // cache_timeout in miliseconds
+
+      setInterval(function() {
+        countdown_timeout++;
+        if (countdown_timeout <= cache_timeout) {
+          // update follows
+        }
+        else {
+          countdown_timeout = 0;
+        }
+        countdown_pie.update(countdown_timeout*10);
+        console.log(countdown_timeout*10);
+      },60*1000);  // cache_timeout in miliseconds
     }
   };
 }();
