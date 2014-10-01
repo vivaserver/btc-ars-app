@@ -1,7 +1,7 @@
 doctype html
 html manifest="/static/manifest.appcache"
   head
-    title BitCoin en Argentina
+    title Bitcoin en Argentina
     meta charset="utf-8"
     meta http-equiv="content-type" content="text/html; charset=UTF-8"
     meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
@@ -14,7 +14,7 @@ html manifest="/static/manifest.appcache"
     header class="bar bar-nav"
       a href="#exchangeable"
         h1 class="title" 
-          | BitCoin en Argentina
+          | Bitcoin en Argentina
           span class="icon icon-caret"
     div id="exchangeable" class="popover"
       header class="bar bar-nav"
@@ -57,9 +57,9 @@ html manifest="/static/manifest.appcache"
               span class="blue"
       p id="time" data-time=""
 
-      nav class="bar bar-tab"
-        a class="tab-item" href="#"
-          span id="exchanger" Digicoins
+    nav class="bar bar-tab"
+      a class="tab-item" href="#"
+        span id="exchanger" ConectaBitcoin
 
     script src="/javascripts/lib/localforage.min.js"
     script src="/javascripts/lib/ratchet.min.js"
@@ -67,4 +67,7 @@ html manifest="/static/manifest.appcache"
     script src="/javascripts/lib/moment-with-langs.min.js"
     script src="/javascripts/lib/numeral.min.js"
     script src="/javascripts/lib/numeral.es.js"
+    script src="/javascripts/exchange/casadecambio.js"
+    script src="/javascripts/exchange/conectabitcoin.js"
+    script src="/javascripts/exchange/digicoins.js"
     script src="/javascripts/app.js"

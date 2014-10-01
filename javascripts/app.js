@@ -3,193 +3,93 @@
 //! license : MIT
 //! btc-ars.enmicelu.com
 
-var app = function() {
-  var $el, exchange, cache_timeout = 10;  // in minutes
+var $el, exchange, cache_timeout = 10;  // in minutes
 
-  var exchangeable = function(exchange) {
-    var backendURL = function() {
-      return (window.location.port ? window.location.href : "http://btc-ars.herokuapp.com/") + "quote/";
-    };
+var exchangeable = function(exchange) {
+  var backendURL = function() {
+    return (window.location.port ? window.location.href : "http://btc-ars.herokuapp.com/") + "quote/";
+  };
 
-    var updateCache = function(data, use_data_time) {
-      console.log(data);
-      localforage.getItem(exchange.name,function(cache) {
-        var quote, current, previous = {"previous":null};
-        if (!!cache) {
-          previous = {"previous":cache.current};
-        }
-        quote = exchange.quote(data,use_data_time);
-        if (!!quote) {
-          current = $.extend({"current":quote},previous);
-          localforage.setItem(exchange.name,current,function() {
-            $el.trigger("data:change");
-          });
-        }
-        else {
-          $el.trigger("data:error");
-        }
-      });
-    };
-
-    var updateFrom = function(uri, use_data_time) {
-      // ask quotes via backend to avoid CORS; but mind cache files are stored locally
-      var targetURI = uri.substring(0,4)==="http" ? backendURL()+uri : uri; 
-      $.ajax({
-        dataType: "json",
-        type: "GET",
-        url: targetURI, 
-        success: function(data) {
-          updateCache(data,use_data_time);
-        },
-        error: function(xhr, type) {
-          console.log(type);  // "abort"
-          $el.trigger("data:error");
-        }
-      });
-    };
-
-    var lapseExpired = function(cache) {
-      var then  = moment(cache.created_at), now = moment();  // mind created_at
-      var diff  = moment(now).diff(moment(then));
-      var lapse = moment.duration(diff).asMinutes();
-      return lapse;
-    };
-
-    return {
-      current: function(callBack) {
-        localforage.getItem(exchange.name,function(cache) {
-          callBack(cache && cache.current ? cache.current : null);
-        });
-      },
-      previous: function(callBack) {
-        localforage.getItem(exchange.name,function(cache) {
-          callBack(cache && cache.previous ? cache.previous : null);
-        });
-      },
-      blue: function(quote) {
-        if (!!quote && quote.ars && quote.usd) {
-          return quote.ars/quote.usd;
-        }
-      },
-      name: function() {
-        return exchange.name;
-      },
-      update: function() {
-        localforage.getItem(exchange.name,function(cache) {
-          if (!cache || lapseExpired(cache.current) > cache_timeout-1) {
-            updateFrom(exchange.URI);
-          }
-        });
-      },
-      updateFromLocal: function() {
-        var use_data_time = true;
-        localforage.removeItem(exchange.name,function() {
-          updateFrom(exchange.cache,use_data_time);
+  var updateCache = function(data, use_data_time) {
+    console.log(data);
+    localforage.getItem(exchange.name,function(cache) {
+      var quote, current, previous = {"previous":null};
+      if (!!cache) {
+        previous = {"previous":cache.current};
+      }
+      quote = exchange.quote(data,use_data_time);
+      if (!!quote) {
+        current = $.extend({"current":quote},previous);
+        localforage.setItem(exchange.name,current,function() {
+          $el.trigger("data:change");
         });
       }
-    };
+      else {
+        $el.trigger("data:error");
+      }
+    });
   };
 
-  var DigiCoins = function() {
-    var conf = {
-      quote: function(data, use_data_time) {  // needed to cache/parse exchanger quotes
-        if ((data || {}).result == "OK") {  // ref. http://stackoverflow.com/a/19285523
-          return {
-            buy: {
-              usd:  data.btcusdask,
-              ars:  data.btcarsask,
-              time: data.quotestime
-            },
-            sell: {
-              usd:  data.btcusdbid,
-              ars:  data.btcarsbid,
-              time: data.quotestime
-            },
-            created_at: (use_data_time === true) ? data.pricestime.replace(" ","T").substr(0,23)+"Z" : new Date().toJSON()  // always like "2014-07-09T17:13:34.553Z"
-          };
-        }
-        else {
-          return false;
-        }
+  var updateFrom = function(uri, use_data_time) {
+    // ask quotes via backend to avoid CORS; but mind cache files are stored locally
+    var targetURI = uri.substring(0,4)==="http" ? backendURL()+uri : uri; 
+    $.ajax({
+      dataType: "json",
+      type: "GET",
+      url: targetURI, 
+      success: function(data) {
+        updateCache(data,use_data_time);
       },
-      cache: "/javascripts/cache.digicoins.json",
-      name: "digicoins",
-      URI: "https://digicoins.tk/ajax/get_prices"
-    };
-
-    return exchangeable(conf);
+      error: function(xhr, type) {
+        console.log(type);  // "abort"
+        $el.trigger("data:error");
+      }
+    });
   };
 
-  var ConectaBitcoin = function() {
-    var conf = {
-      quote: function(data, use_data_time) {  // needed to cache/parse exchanger quotes
-        var data_time = new Date();
-        if ((data || {}).btc_usd && (data || {}).btc_ars) {
-          if (use_data_time) {  // force expired date
-            data_time = new Date(data_time.getFullYear(),data_time.getMonth(),data_time.getDate()-1);
-          }
-          data_time = data_time.toJSON();
-
-          return {
-            buy: {
-              usd:  data.btc_usd.buy,
-              ars:  data.btc_ars.buy,
-              time: data_time
-            },
-            sell: {
-              usd:  data.btc_usd.sell,
-              ars:  data.btc_ars.sell,
-              time: data_time
-            },
-            // blue: usd_ars.sell/usd_ars.buy
-            created_at: data_time  // "2014-07-09T17:13:34.553Z"
-          };
-        }
-        else {
-          return false;
-        }
-      },
-      cache: "/javascripts/cache.conectabitcoin.json",
-      name: "conectabitcoin",
-      URI: "https://conectabitcoin.com/es/market_prices.json"
-    };
-
-    return exchangeable(conf);
+  var lapseExpired = function(cache) {
+    var then  = moment(cache.created_at), now = moment();  // mind created_at
+    var diff  = moment(now).diff(moment(then));
+    var lapse = moment.duration(diff).asMinutes();
+    return lapse;
   };
 
-  var CasaDeCambio = function() {
-    var conf = {
-      quote: function(data, use_data_time) {  // needed to cache/parse exchanger quotes
-        var data_time = new Date();
-        if ((data || {}).bid && (data || {}).ask) {
-          if (use_data_time) {  // force expired date
-            data_time = new Date(data_time.getFullYear(),data_time.getMonth(),data_time.getDate()-1);
-          }
-          return {
-            buy: {
-              ars:  data.ask,
-              time: data_time
-            },
-            sell: {
-              ars:  data.bid,
-              time: data_time
-            },
-            // blue: usd_ars.sell/usd_ars.buy
-            created_at: data_time  // "2014-07-09T17:13:34.553Z"
-          };
+  return {
+    current: function(callBack) {
+      localforage.getItem(exchange.name,function(cache) {
+        callBack(cache && cache.current ? cache.current : null);
+      });
+    },
+    previous: function(callBack) {
+      localforage.getItem(exchange.name,function(cache) {
+        callBack(cache && cache.previous ? cache.previous : null);
+      });
+    },
+    blue: function(quote) {
+      if (!!quote && quote.ars && quote.usd) {
+        return quote.ars/quote.usd;
+      }
+    },
+    name: function() {
+      return exchange.name;
+    },
+    update: function() {
+      localforage.getItem(exchange.name,function(cache) {
+        if (!cache || lapseExpired(cache.current) > cache_timeout-1) {
+          updateFrom(exchange.URI);
         }
-        else {
-          return false;
-        }
-      },
-      cache: "/javascripts/cache.casadecambio.json",
-      name: "casadecambio",
-      URI: "https://www.casadecambiobtc.com/api/quotations/BTCARS"
-    };
-
-    return exchangeable(conf);
+      });
+    },
+    updateFromLocal: function() {
+      var use_data_time = true;
+      localforage.removeItem(exchange.name,function() {
+        updateFrom(exchange.cache,use_data_time);
+      });
+    }
   };
+};
 
+var app = function() {
   var Home = function() {
     var $buy, $sell, $time;
 
