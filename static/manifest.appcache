@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 01/10/14 09:29
+# 01/10/14 11:15
 
 CACHE:
 /static/favicon.ico
@@ -16,9 +16,9 @@ CACHE:
 /javascripts/exchange/casadecambio.js
 /javascripts/exchange/conectabitcoin.js
 /javascripts/exchange/digicoins.js
-/javascripts/cache.casadecambio.json
-/javascripts/cache.conectabitcoin.json
-/javascripts/cache.digicoins.json
+/javascripts/exchange/cache/casadecambio.json
+/javascripts/exchange/cache/conectabitcoin.json
+/javascripts/exchange/cache/digicoins.json
 /javascripts/app.js
 /stylesheets/ratchet.min.css
 /stylesheets/styles.css

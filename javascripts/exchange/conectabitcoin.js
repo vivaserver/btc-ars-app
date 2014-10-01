@@ -27,7 +27,7 @@ var ConectaBitcoin = function() {
         return false;
       }
     },
-    cache: "/javascripts/cache.conectabitcoin.json",
+    cache: "/javascripts/exchange/cache/conectabitcoin.json",
     name: "conectabitcoin",
     URI: "https://conectabitcoin.com/es/market_prices.json"
   };

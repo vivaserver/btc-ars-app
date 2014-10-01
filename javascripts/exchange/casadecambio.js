@@ -23,7 +23,7 @@ var CasaDeCambio = function() {
         return false;
       }
     },
-    cache: "/javascripts/cache.casadecambio.json",
+    cache: "/javascripts/exchange/cache/casadecambio.json",
     name: "casadecambio",
     URI: "https://www.casadecambiobtc.com/api/quotations/BTCARS"
   };

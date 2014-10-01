@@ -20,7 +20,7 @@ var DigiCoins = function() {
         return false;
       }
     },
-    cache: "/javascripts/cache.digicoins.json",
+    cache: "/javascripts/exchange/cache/digicoins.json",
     name: "digicoins",
     URI: "https://digicoins.tk/ajax/get_prices"
   };
