@@ -366,7 +366,7 @@ var app = function() {
       moment.lang("es");
 
       $el = $(elem || "body");
-      exchange = DigiCoins();  // TODO: get from localforage
+      exchange = ConectaBitcoin();  // TODO: get from localforage
 
       Home.init();
       // render from local cache JSON file
