@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 01/10/14 11:15
+# 05/10/14 15:15
 
 CACHE:
 /static/favicon.ico
@@ -16,14 +16,17 @@ CACHE:
 /javascripts/exchange/casadecambio.js
 /javascripts/exchange/conectabitcoin.js
 /javascripts/exchange/digicoins.js
+/javascripts/exchange/ripio.js
 /javascripts/exchange/cache/casadecambio.json
 /javascripts/exchange/cache/conectabitcoin.json
 /javascripts/exchange/cache/digicoins.json
+/javascripts/exchange/cache/ripio.json
 /javascripts/app.js
 /stylesheets/ratchet.min.css
 /stylesheets/styles.css
 
 NETWORK:
 https://www.casadecambiobtc.com
+https://www.ripio.com
 https://conectabitcoin.com
 https://digicoins.tk

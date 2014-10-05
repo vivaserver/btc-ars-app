@@ -251,6 +251,9 @@ var app = function() {
               case "digicoins":
                 exchange = DigiCoins();
               break;
+              case "ripio":
+                exchange = Ripio();
+              break;
             }
             $el.trigger("data:change");
           }
