@@ -1,3 +1,5 @@
+// DEPRECATED: keep only as reference
+
 var ConectaBitcoin = function() {
   var conf = {
     quote: function(data, use_data_time) {  // needed to cache/parse exchanger quotes
