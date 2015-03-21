@@ -22,7 +22,7 @@ var DigiCoins = function() {
     },
     cache: "/javascripts/exchange/cache/digicoins.json",
     name: "digicoins",
-    URI: "https://digicoins.tk/ajax/get_prices"
+    URI: "https://digicoins.tk/ajax/tickers"
   };
 
   return exchangeable(conf);
