@@ -1,19 +1,23 @@
 var DigiCoins = function() {
   var conf = {
-    quote: function(data, use_data_time) {  // needed to cache/parse exchanger quotes
-      if ((data || {}).result == "OK") {  // ref. http://stackoverflow.com/a/19285523
+    quote: function(data, isCached) {  // needed to cache/parse exchanger quotes
+      var updated_at = new Date();
+      if ((data || {}).result == "ok") {  // ref. http://stackoverflow.com/a/19285523
+        if (isCached) {  // force expired date
+          updated_at = new Date(updated_at.getFullYear(),updated_at.getMonth(),updated_at.getDate()-1);
+        }
         return {
           buy: {
-            usd:  data.btcusdask,
-            ars:  data.btcarsask,
-            time: data.quotestime
+            usd:  data["BTC/USD"].ask,
+            ars:  data["BTC/ARS"].ask,
+            time: updated_at
           },
           sell: {
-            usd:  data.btcusdbid,
-            ars:  data.btcarsbid,
-            time: data.quotestime
+            usd:  data["BTC/USD"].bid,
+            ars:  data["BTC/ARS"].bid,
+            time: updated_at
           },
-          created_at: (use_data_time === true) ? data.pricestime.replace(" ","T").substr(0,23)+"Z" : new Date().toJSON()  // always like "2014-07-09T17:13:34.553Z"
+          created_at: updated_at  // "2014-07-09T17:13:34.553Z"
         };
       }
       else {
