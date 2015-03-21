@@ -90,7 +90,7 @@ var exchangeable = function(exchange) {
 };
 
 var app = function() {
-  var Home = function() {
+  var HomeView = function() {
     var $buy, $sell, $time;
 
     var renderQuotes = function() {
@@ -228,7 +228,7 @@ var app = function() {
     };
   }();
 
-  var Exchangeable = function() {
+  var ExchangerSelectView = function() {
     return {
       // ref. https://github.com/twbs/ratchet/issues/625
       init: function() {  // closure $el
@@ -271,11 +271,10 @@ var app = function() {
       $el = $(elem || "body");
       exchange = CasaDeCambio();  // TODO: get from localforage
 
-      Home.init();
-      // render from local cache JSON file
-      Home.render();
-
-      Exchangeable.init();
+      HomeView.init();
+      HomeView.render();
+      //
+      ExchangerSelectView.init();
 
       // force first update
       exchange.update();
